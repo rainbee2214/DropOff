@@ -6,9 +6,10 @@ public class UIController : MonoBehaviour
 {
 
     //Handles the player panel ui
-
+    //Handles the gametime
     public GameObject player1Panel, player2Panel, player3Panel, player4Panel;
     public Color normalColor, player1Color, player2Color, player3Color, player4Color;
+    public Text timeText;
 
     void Start()
     {
@@ -27,6 +28,10 @@ public class UIController : MonoBehaviour
         player4Panel.GetComponent<Image>().color = new Color(player4Color.r, player4Color.g, player4Color.b, 100f / 255f);
     }
 
+    void Update()
+    {
+        timeText.text = " " +GameController.controller.GetGameLength(true);
+    }
     public void AddPlayer(int number)
     {
         GameObject panel = player1Panel;

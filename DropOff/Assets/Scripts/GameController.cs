@@ -196,6 +196,7 @@ public class GameController : MonoBehaviour
     GameObject crystalPrefab, mushroomPrefab;
     GameObject oilSpillPrefab;
 
+    public float startGameTime;
     [HideInInspector]
     public HashSet<Vector2> usedPositions = new HashSet<Vector2>();
 
@@ -248,6 +249,11 @@ public class GameController : MonoBehaviour
         StartCoroutine(WaitForGameStart());
     }
 
+    public float GetGameLength(bool isInt = false)
+    {
+        return (isInt ? Mathf.RoundToInt(Time.time - startGameTime) : Time.time - startGameTime);
+    }
+
     IEnumerator WaitForGameStart()
     {
         playingGame = false;
@@ -257,6 +263,7 @@ public class GameController : MonoBehaviour
             //display title screen and other options
             yield return null;
         }
+        startGameTime = Time.time;
         TurnOnCars();
         titleCanvas.gameObject.SetActive(false);
         AudioController.controller.PlayAudio(AudioType.GameBackground);
@@ -293,7 +300,7 @@ public class GameController : MonoBehaviour
         while (playingGame)
         {
             yield return new WaitForSeconds(spawnPowerUpsDelay);
-            if (Random.Range(0, 100) % 3 == 0) CreateCrystals(1);
+             CreateCrystals(1);
             if (Random.Range(0, 100) % 3 == 0) CreateMushrooms(1);
         }
         yield return null;

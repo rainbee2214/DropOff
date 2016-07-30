@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OilSpill : MonoBehaviour
+public class Obstacle : MonoBehaviour
 {
-
-    //Fade out after a time
-    //Make collectables into object pools
 
     float aliveTime = 5f;
     public float timeStarted;
@@ -37,17 +34,9 @@ public class OilSpill : MonoBehaviour
         if (other.tag == "Car")
         {
             Car p = other.GetComponent<Car>();
-            //p.ChangeDirection();
-            float delay = 2f;
-            p.ChangeSpeed(delay, 0.25f);
-            StartCoroutine(TurnOff(delay));
-            AudioController.controller.PlayAudio(AudioType.OilSpill);
+            p.HasDied();
+            gameObject.SetActive(false);
         }
     }
 
-    IEnumerator TurnOff(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-            gameObject.SetActive(false);
-    }
 }

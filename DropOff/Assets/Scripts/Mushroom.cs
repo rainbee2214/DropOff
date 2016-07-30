@@ -3,7 +3,26 @@ using System.Collections;
 
 public class Mushroom : MonoBehaviour
 {
+    float aliveTime = 25f;
+    public float timeStarted;
 
+    public void OnEnable()
+    {
+        timeStarted = Time.time;
+    }
+
+    void Update()
+    {
+        if (Time.time > timeStarted + aliveTime)
+        {
+            TurnOff();
+        }
+    }
+
+    public void TurnOff()
+    {
+        gameObject.SetActive(false);
+    }
     public void Setup(Vector2 position)
     {
         transform.position = position + GameController.mapOffset + new Vector2(0.5f, 0.5f);

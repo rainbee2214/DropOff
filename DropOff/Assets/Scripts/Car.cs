@@ -100,7 +100,7 @@ public class Car : MonoBehaviour
                 break;
         }
 
-        ChangeDirection(newDirection);
+        //ChangeDirection(newDirection);
     }
     public void FixedUpdate()
     {
@@ -185,30 +185,34 @@ public class Car : MonoBehaviour
             case Direction.Top:
                 if (!canTurnTop && !CanTurn(goingTowards, hasTop, hasRight, hasLeft, hasBottom))
                 {
-                    StartCoroutine(StartDeath());
+                    HasDied();
                 }
                 break;
             case Direction.Right:
                 if (!canTurnRight && !CanTurn(goingTowards, hasTop, hasRight, hasLeft, hasBottom))
                 {
-                    StartCoroutine(StartDeath());
+                    HasDied();
                 }
                 break;
             case Direction.Left:
                 if (!canTurnLeft && !CanTurn(goingTowards, hasTop, hasRight, hasLeft, hasBottom))
                 {
-                    StartCoroutine(StartDeath());
+                    HasDied();
                 }
                 break;
             case Direction.Bottom:
                 if (!canTurnBottom && !CanTurn(goingTowards, hasTop, hasRight, hasLeft, hasBottom))
                 {
-                    StartCoroutine(StartDeath());
+                    HasDied();
                 }
                 break;
         }
     }
 
+    public void HasDied()
+    {
+        StartCoroutine(StartDeath());
+    }
     public IEnumerator StartDeath()
     {
         //Play explosion
@@ -236,6 +240,7 @@ public class Car : MonoBehaviour
         GameController.controller.TurnOnCar(this);
         sr.enabled = true;
         speed = temp;
+        ChangeDirection(Direction.Top);
         //Reset position and then flicker back on
     }
 
@@ -264,12 +269,19 @@ public class Car : MonoBehaviour
         canTurnBottom = false;
     }
 
-    public IEnumerator SpeedUp(float speedUpTime, int multiplier)
+    public void ChangeSpeed(float speedUpTime, float multiplier)
     {
+        StartCoroutine(SpeedUp(speedUpTime, multiplier));
+    }
+    public IEnumerator SpeedUp(float speedUpTime, float multiplier)
+    {
+        Debug.Log("Changing Speed1");
         float t = speed;
         speed *= multiplier;
         yield return new WaitForSeconds(speedUpTime);
+        Debug.Log("Changing Speed2");
         speed = t;
+        Debug.Log("Changing Speed3");
         yield return null;
     }
 }

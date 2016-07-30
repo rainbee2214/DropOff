@@ -11,8 +11,17 @@ public class Person : MonoBehaviour
         srs = GetComponentsInChildren<SpriteRenderer>();
         dropOffLocation = GetComponentInChildren<DropOffLocation>();
     }
+    float aliveTime = 30f;
+    public float timeStarted;
+
+    public void OnEnable()
+    {
+        timeStarted = Time.time;
+    }
+
     public void Pickup()
     {
+        Debug.Log("It took you " + Mathf.RoundToInt(Time.time - timeStarted) +  " too many seconds to get here!");
         AudioController.controller.PlayAudio(AudioType.PickUp);
         //Create a drop off location
         srs[0].enabled = false;
